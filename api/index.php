@@ -48,7 +48,7 @@ if (!isset($p)) {
 // curl_setopt($ch, CURLOPT_URL, "http://localhost:4000/api/v1/export/{$data->slug}/{$data->codename}?p={$p}");
 
 //prod env
-curl_setopt($ch, CURLOPT_URL, "https://jbwebapps.ga/phpspreadsheet-gmims/api/v1/export/{$data->slug}/{$data->codename}?p={$p}");
+curl_setopt($ch, CURLOPT_URL, "https://jbwebapps.ga/gmims-new/api/v1/export/{$data->slug}/{$data->codename}?p={$p}");
 curl_setopt($ch, CURLOPT_POST, 1);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
