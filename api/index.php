@@ -16,7 +16,7 @@ header("HTTP/1.1 200 OK");
 $json = file_get_contents('php://input');
 
 // Converts it into a PHP object
-$data = json_decode($json);
+$data = json_decode($json,true);
 
 
 $headers = apache_request_headers();
