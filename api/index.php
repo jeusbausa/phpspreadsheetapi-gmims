@@ -112,7 +112,7 @@ function dateDifference($date_1, $date_2, $differenceFormat)
 
 $filename = [];
 
-foreach ($dataResponse['msg'] as $key => $cluster) {
+foreach ((array)$dataResponse['msg'] as $cluster) {
     array_push($filename, strtoupper("{$cluster['staffCodeNameId']} - {$cluster['clusterCode']}"));
 }
 
