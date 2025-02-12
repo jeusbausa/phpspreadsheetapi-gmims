@@ -14,8 +14,8 @@ COPY . /app
 RUN chown -R nobody:nobody /app && chmod -R 755 /app
 
 # Copy config files
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
+# COPY nginx.conf /etc/nginx/nginx.conf
+# COPY php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
 
 # Expose necessary port
 EXPOSE 80
