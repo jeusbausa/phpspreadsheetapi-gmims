@@ -1,4 +1,4 @@
-# Use Alpine for a lightweight PHP 7.4 + Nginx setup
+# Use PHP 7.4 with FPM and Alpine
 FROM php:7.4-fpm-alpine
 
 # Install necessary dependencies
@@ -9,7 +9,7 @@ RUN apk add --no-cache nginx nodejs npm libmysqlclient-dev \
 WORKDIR /var/www/html
 
 # Copy project files
-COPY . .
+COPY . /var/www/html
 
 # Ensure necessary directories exist
 RUN mkdir -p /var/log/nginx /var/cache/nginx
@@ -18,7 +18,10 @@ RUN mkdir -p /var/log/nginx /var/cache/nginx
 COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY ./php-fpm.conf /usr/local/etc/php-fpm.conf
 
-# Expose ports
+# Set permissions
+RUN chown -R www-data:www-data /var/www/html
+
+# Expose port
 EXPOSE 80
 
 # Start services
