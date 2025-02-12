@@ -5,20 +5,19 @@ FROM php:7.4-fpm-alpine
 RUN apk add --no-cache nginx curl git zip unzip
 
 # Set working directory
-WORKDIR /var/www/html
+WORKDIR /app
 
 # Copy application files
-COPY . .
+COPY . /app
 
 # Set permissions
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html
+RUN chown -R nobody:nobody /app && chmod -R 755 /app
 
-# Copy Nginx and PHP-FPM configuration files
+# Copy config files
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
 
-# Expose ports
+# Expose necessary port
 EXPOSE 80
 
 # Start PHP-FPM and Nginx together
