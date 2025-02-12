@@ -305,8 +305,6 @@ $writer->save('php://output');
 $writer_data = ob_get_contents();
 ob_end_clean();
 
-header('Cache-Control: max-age=0');
-
 $data =  array(
     'status' => 200,
     'success' => true,
