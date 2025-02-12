@@ -1,28 +1,20 @@
-# Use official PHP 7.4 FPM base image
-FROM php:7.4-fpm
-
-# Install Nginx and necessary dependencies
-RUN apt-get update && apt-get install -y \
-    nginx \
-    libzip-dev unzip \
-    && docker-php-ext-install zip pdo pdo_mysql
+# Use the official PHP image with Apache
+FROM php:7.4-apache
 
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy application files
-COPY . .
+# Copy application files to the container
+COPY . /var/www/html/
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html
+# Enable Apache mod_rewrite (useful for frameworks like Laravel)
+RUN a2enmod rewrite
 
-# Copy configuration files
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY php-fpm.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+# Install necessary PHP extensions
+RUN docker-php-ext-install pdo pdo_mysql
 
-# Expose HTTP port
+# Expose port 80
 EXPOSE 80
 
-# Command to start both Nginx & PHP-FPM
-CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
+# Start Apache server
+CMD ["apache2-foreground"]
