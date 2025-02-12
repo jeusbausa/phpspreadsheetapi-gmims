@@ -1,8 +1,9 @@
-# Use official PHP 7.4 FPM image
+# Base image with PHP 7.4 and FPM
 FROM php:7.4-fpm
 
 # Install necessary dependencies
 RUN apt-get update && apt-get install -y \
+    nginx \
     libzip-dev unzip \
     && docker-php-ext-install zip pdo pdo_mysql
 
@@ -16,14 +17,12 @@ COPY . .
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html
 
-# Copy nginx configuration
+# Copy configuration files
 COPY nginx.conf /etc/nginx/nginx.conf
-
-# Copy PHP-FPM configuration
 COPY php-fpm.conf /etc/php/7.4/fpm/php-fpm.conf
 
-# Expose HTTP port
+# Expose ports
 EXPOSE 80
 
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Start both Nginx and PHP-FPM together
+CMD service php7.4-fpm start && nginx -g "daemon off;"
