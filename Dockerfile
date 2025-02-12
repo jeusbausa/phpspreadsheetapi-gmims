@@ -1,31 +1,25 @@
-# Use PHP 7.4 with FPM and Alpine
+# Use PHP 7.4 with FPM (FastCGI Process Manager)
 FROM php:7.4-fpm-alpine
 
-# Install necessary dependencies
-RUN apk add --no-cache nginx nodejs npm mariadb-dev \
-    && docker-php-ext-install pdo pdo_mysql
+# Install system dependencies
+RUN apk add --no-cache nginx curl git zip unzip
 
-# Set up working directory
+# Set working directory
 WORKDIR /var/www/html
 
-# Copy project files
-COPY . /var/www/html
-
-# Ensure necessary directories exist
-RUN mkdir -p /var/log/nginx /var/cache/nginx
-
-# Debugging: Show files before copying
-RUN ls -lah /var/www/html/api
-
-# Copy Nginx and PHP-FPM configurations
-COPY ./php-fpm.conf /usr/local/etc/php-fpm.conf
-COPY ./nginx.conf /etc/nginx/nginx.conf
+# Copy application files
+COPY . .
 
 # Set permissions
-RUN chown -R www-data:www-data /var/www/html
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html
 
-# Expose port
+# Copy Nginx and PHP-FPM configuration files
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
+
+# Expose ports
 EXPOSE 80
 
-# Start services
-CMD ["sh", "-c", "nginx && php-fpm"]
+# Start PHP-FPM and Nginx together
+CMD php-fpm -D && nginx -g 'daemon off;'
