@@ -10,8 +10,12 @@ COPY . /var/www/html/
 # Enable Apache mod_rewrite (useful for frameworks like Laravel)
 RUN a2enmod rewrite
 
-# Install necessary PHP extensions
-RUN docker-php-ext-install pdo pdo_mysql
+# Install necessary PHP extensions for PHPSpreadsheet
+RUN apt-get update && apt-get install -y \
+    libzip-dev \
+    unzip && \
+    docker-php-ext-install zip pdo pdo_mysql \
+    && docker-php-ext-enable zip
 
 # Set the ServerName to suppress warning
 RUN echo "ServerName spreadsheet.gmimsys.com" >> /etc/apache2/apache2.conf
