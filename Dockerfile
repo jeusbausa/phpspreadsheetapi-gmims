@@ -1,24 +1,38 @@
-# Use PHP 7.4 with FPM (FastCGI Process Manager)
-FROM php:7.4-fpm-alpine
+# Use official PHP 7.4 FPM image
+FROM php:7.4-fpm
 
-# Install system dependencies
-RUN apk add --no-cache nginx curl git zip unzip
+# Install necessary dependencies
+RUN apt-get update && apt-get install -y \
+    libzip-dev unzip \
+    && docker-php-ext-install zip pdo pdo_mysql
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Set working directory
-WORKDIR /app
+WORKDIR /var/www/html
 
 # Copy application files
-COPY . /app
+COPY . .
+
+# Install PHP dependencies
+RUN composer install --no-dev --optimize-autoloader
 
 # Set permissions
-RUN chown -R nobody:nobody /app && chmod -R 755 /app
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html
 
-# Copy config files
-# COPY nginx.conf /etc/nginx/nginx.conf
-# COPY php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
+# Nginx setup
+FROM nginx:latest
 
-# Expose necessary port
+# Copy nginx configuration
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Copy PHP-FPM configuration
+COPY php-fpm.conf /etc/php/7.4/fpm/php-fpm.conf
+
+# Expose HTTP port
 EXPOSE 80
 
-# Start PHP-FPM and Nginx together
-CMD php-fpm -D && nginx -g 'daemon off;'
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
