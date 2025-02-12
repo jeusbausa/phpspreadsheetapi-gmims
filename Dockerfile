@@ -16,9 +16,6 @@ COPY . .
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html
 
-# Nginx setup
-FROM nginx:latest
-
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
