@@ -11,15 +11,15 @@ WORKDIR /var/www/html
 # Copy project files
 COPY . /var/www/html
 
-# Ensure necessary directories exist
-RUN mkdir -p /var/log/nginx /var/cache/nginx
-
 # Debugging: Show files before copying
 RUN ls -lah ./
 
 # Copy Nginx and PHP-FPM configurations
-COPY ./php-fpm.conf /usr/local/etc/php-fpm.conf
-COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY php-fpm.conf /usr/local/etc/php-fpm.conf
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Ensure necessary directories exist
+RUN mkdir -p /var/log/nginx /var/cache/nginx
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html
