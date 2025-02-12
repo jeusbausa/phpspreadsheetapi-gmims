@@ -15,8 +15,8 @@ COPY . /var/www/html
 RUN mkdir -p /var/log/nginx /var/cache/nginx
 
 # Copy Nginx and PHP-FPM configurations (if you have them)
-COPY ./nginx.conf /etc/nginx/nginx.conf
-COPY ./php-fpm.conf /usr/local/etc/php-fpm.conf
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY php-fpm.conf /usr/local/etc/php-fpm.conf
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html
