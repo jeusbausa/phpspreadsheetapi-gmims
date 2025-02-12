@@ -12,6 +12,9 @@ COPY apache.conf /etc/apache2/sites-available/000-default.conf
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
+# Enable the site configuration
+RUN a2ensite 000-default.conf
+
 # Install necessary PHP extensions for PHPSpreadsheet
 RUN apt-get update && apt-get install -y \
     libzip-dev \
@@ -25,9 +28,6 @@ RUN echo "ServerName spreadsheet.gmimsys.com" >> /etc/apache2/apache2.conf
 # Expose port based on Railway's dynamic port assignment
 ENV PORT=8080
 EXPOSE 8080
-
-# Update Apache to listen on Railway's port
-RUN sed -i "s/80/${PORT}/g" /etc/apache2/sites-available/000-default.conf
 
 # Start Apache server
 CMD ["apache2-foreground"]
