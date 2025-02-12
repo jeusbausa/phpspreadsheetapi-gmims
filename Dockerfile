@@ -13,6 +13,9 @@ RUN a2enmod rewrite
 # Install necessary PHP extensions
 RUN docker-php-ext-install pdo pdo_mysql
 
+# Set the ServerName to suppress warning
+RUN echo "ServerName spreadsheet.gmimsys.com" >> /etc/apache2/apache2.conf
+
 # Expose port 80
 EXPOSE 80
 
