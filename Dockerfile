@@ -15,7 +15,7 @@ COPY . /var/www/html
 RUN mkdir -p /var/log/nginx /var/cache/nginx
 
 # Debugging: Show files before copying
-RUN ls -lah /var/www/html/api
+RUN ls -lah ./
 
 # Copy Nginx and PHP-FPM configurations
 COPY ./php-fpm.conf /usr/local/etc/php-fpm.conf
