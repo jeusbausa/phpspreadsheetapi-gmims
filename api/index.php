@@ -16,7 +16,7 @@ header("HTTP/1.1 200 OK");
 $json = file_get_contents('php://input');
 
 // Converts it into a PHP object
-$data = json_decode($json,true);
+$data = json_decode($json, true);
 
 
 $headers = apache_request_headers();
@@ -48,7 +48,7 @@ if (!isset($p)) {
 // curl_setopt($ch, CURLOPT_URL, "http://localhost:4000/api/v1/export/{$data->slug}/{$data->codename}?p={$p}");
 
 //prod env
-curl_setopt($ch, CURLOPT_URL, "https://jbwebapps.ga/gmims-new/api/v1/export/{$data->slug}/{$data->codename}?p={$p}");
+curl_setopt($ch, CURLOPT_URL, "https://v2.gmimsys.com/api/v1/export/{$data->slug}/{$data->codename}?p={$p}");
 curl_setopt($ch, CURLOPT_POST, 1);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
