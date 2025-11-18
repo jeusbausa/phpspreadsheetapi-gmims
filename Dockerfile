@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-enable zip
 
 # Set the ServerName to suppress warnings
-RUN echo "ServerName spreadsheet.gmimsys.com" >> /etc/apache2/apache2.conf
+RUN echo "ServerName api-phpspreadsheet.goodlifemicrolending.com" >> /etc/apache2/apache2.conf
 
 # Expose port based on Railway's dynamic port assignment
 ENV PORT 8080

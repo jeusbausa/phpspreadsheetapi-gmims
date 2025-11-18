@@ -49,7 +49,7 @@ if (!isset($p)) {
 
 //prod env
 
-curl_setopt($ch, CURLOPT_URL, "https://v2.gmimsys.com/api/v1/export/{$data->slug}/{$data->codename}?p={$p}");
+curl_setopt($ch, CURLOPT_URL, "https://portal.goodlifemicrolending.com/api/v1/export/{$data->slug}/{$data->codename}?p={$p}");
 curl_setopt($ch, CURLOPT_POST, 1);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
